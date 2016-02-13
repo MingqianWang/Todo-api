@@ -43,6 +43,18 @@ app.post('/todos', function (req, res) {
   res.json(body);
 });
 
+app.delete('/todos/:id', function (req, res) {
+  var todoId = parseInt(req.params.id, 10);
+  var mactchTodo = _.findWhere(todos, {id: todoId});
+
+  if(!mactchTodo) {
+    res.status(404).json({"error": "No todo item found with that id"});
+  } else {
+    todos = _.without(todos, mactchTodo);
+    res.json(mactchTodo);
+  }
+});
+
 
 app.listen(PORT, function () {
   console.log("server started at port:" + PORT );
